@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -85,6 +86,17 @@ public class UserControllerTest {
                         .content(userJSON.write(user).getJson()))
                 .andExpect(status().isOk())
                 .andExpect(content().json(userJSON.write(user).getJson()))
+                .andReturn().getResponse();
+    }
+
+    @Test
+    public void testing_DELETE_user() throws Exception {
+        when(userService.delete(anyLong())).thenReturn("User deleted " + anyLong());
+
+        mvc.perform(
+                delete("/api/delete/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("User deleted 0"))
                 .andReturn().getResponse();
     }
 }
