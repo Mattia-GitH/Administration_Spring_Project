@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 public class UserConverterTest {
@@ -22,7 +22,7 @@ public class UserConverterTest {
     }
 
     @Test
-    public void testing_converter_bidirectional_toModel_toEntity(){
+    public void testing_converter_bidirectional_toModel_toEntity() {
         UserEntity entity = new UserEntity();
         entity.setName("Name");
 
@@ -33,7 +33,7 @@ public class UserConverterTest {
     }
 
     @Test
-    public void testing_converter_list_bidirectional_listToModels_listToEntities(){
+    public void testing_converter_list_bidirectional_listToModels_listToEntities() {
         List<UserEntity> entityList = new ArrayList<>();
         entityList.add(new UserEntity());
         entityList.add(new UserEntity());
@@ -43,7 +43,6 @@ public class UserConverterTest {
         List<UserEntity> listToEntities = converter.listToEntities(listToModels);
 
         assertEquals(entityList, listToEntities);
-        assertEquals(3,listToEntities.size());
+        assertEquals(3, listToEntities.size());
     }
-
 }
