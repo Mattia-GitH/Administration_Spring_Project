@@ -16,7 +16,6 @@ public class UserConverter {
         model.setSurname(entity.getSurname());
         model.setAge(entity.getAge());
         model.setAdministrator(entity.isAdministrator());
-        model.setTelephone(entity.getTelephone());
         model.setEmail(entity.getEmail());
         model.setPassword(entity.getPassword());
         model.setRegistration(entity.getRegistration());
@@ -33,7 +32,6 @@ public class UserConverter {
         entity.setSurname(model.getSurname());
         entity.setAge(model.getAge());
         entity.setAdministrator(model.isAdministrator());
-        entity.setTelephone(model.getTelephone());
         entity.setEmail(model.getEmail());
         entity.setPassword(model.getPassword());
         entity.setRegistration(model.getRegistration());

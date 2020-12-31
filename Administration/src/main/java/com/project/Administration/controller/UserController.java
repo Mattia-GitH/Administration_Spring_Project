@@ -3,6 +3,7 @@ package com.project.Administration.controller;
 import com.project.Administration.model.UserModel;
 import com.project.Administration.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +27,7 @@ public class UserController {
 
     @PostMapping("/create")
     public ResponseEntity<UserModel> create(@RequestBody UserModel userModel){
-        return ResponseEntity.ok().body(userService.createUser(userModel));
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(userModel));
     }
 
     @PutMapping("/update/{id}")

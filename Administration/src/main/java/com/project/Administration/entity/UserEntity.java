@@ -27,9 +27,6 @@ public class UserEntity {
     @Column(name = "PASSWORD")
     private String password;
 
-    @Column(name = "TELEPHONE")
-    private int telephone;
-
     @Column(name = "ADMINISTRATOR")
     private boolean administrator;
 
@@ -39,14 +36,13 @@ public class UserEntity {
     public UserEntity() {
     }
 
-    public UserEntity(long id, int age, String name, String surname, String email, String password, int telephone, boolean administrator, Date registration) {
+    public UserEntity(long id, int age, String name, String surname, String email, String password, boolean administrator, Date registration) {
         this.id = id;
         this.age = age;
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.password = password;
-        this.telephone = telephone;
         this.administrator = administrator;
         this.registration = registration;
     }
@@ -99,14 +95,6 @@ public class UserEntity {
         this.password = password;
     }
 
-    public int getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(int telephone) {
-        this.telephone = telephone;
-    }
-
     public boolean isAdministrator() {
         return administrator;
     }
@@ -130,7 +118,6 @@ public class UserEntity {
         UserEntity that = (UserEntity) o;
         return id == that.id &&
                 age == that.age &&
-                telephone == that.telephone &&
                 administrator == that.administrator &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(surname, that.surname) &&
@@ -141,7 +128,7 @@ public class UserEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, age, name, surname, email, password, telephone, administrator, registration);
+        return Objects.hash(id, age, name, surname, email, password, administrator, registration);
     }
 
     @Override
@@ -153,7 +140,6 @@ public class UserEntity {
                 ", surname='" + surname + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", telephone=" + telephone +
                 ", administrator=" + administrator +
                 ", registration=" + registration +
                 '}';

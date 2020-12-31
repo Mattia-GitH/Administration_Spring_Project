@@ -11,21 +11,19 @@ public class UserModel {
     private String surname;
     private String email;
     private String password;
-    private int telephone;
     private boolean administrator;
     private Date registration;
 
     public UserModel() {
     }
 
-    public UserModel(long id, int age, String name, String surname, String email, String password, int telephone, boolean administrator, Date registration) {
+    public UserModel(long id, int age, String name, String surname, String email, String password, boolean administrator, Date registration) {
         this.id = id;
         this.age = age;
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.password = password;
-        this.telephone = telephone;
         this.administrator = administrator;
         this.registration = registration;
     }
@@ -78,14 +76,6 @@ public class UserModel {
         this.password = password;
     }
 
-    public int getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(int telephone) {
-        this.telephone = telephone;
-    }
-
     public boolean isAdministrator() {
         return administrator;
     }
@@ -109,7 +99,6 @@ public class UserModel {
         UserModel userModel = (UserModel) o;
         return id == userModel.id &&
                 age == userModel.age &&
-                telephone == userModel.telephone &&
                 administrator == userModel.administrator &&
                 Objects.equals(name, userModel.name) &&
                 Objects.equals(surname, userModel.surname) &&
@@ -120,7 +109,7 @@ public class UserModel {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, age, name, surname, email, password, telephone, administrator, registration);
+        return Objects.hash(id, age, name, surname, email, password, administrator, registration);
     }
 
     @Override
@@ -132,7 +121,6 @@ public class UserModel {
                 ", surname='" + surname + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", telephone=" + telephone +
                 ", administrator=" + administrator +
                 ", registration=" + registration +
                 '}';
