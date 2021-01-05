@@ -3,28 +3,24 @@ package com.project.Administration.controller;
 import com.project.Administration.model.UserModel;
 import com.project.Administration.service.UserService;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(SpringExtension.class)
 @AutoConfigureJsonTesters
 @WebMvcTest(UserController.class)
 public class UserControllerTest {
@@ -97,6 +93,86 @@ public class UserControllerTest {
                 delete("/api/delete/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("User deleted 0"))
+                .andReturn().getResponse();
+    }
+
+    @Test
+    public void testing_GET_listAdminIsBool_true() throws Exception {
+        UserModel user = new UserModel();
+
+        List<UserModel> list = new ArrayList<>();
+        list.add(user);
+
+        when(userService.whereAdminIsBool(anyBoolean())).thenReturn(list);
+
+        mvc.perform(
+                get("/api/users/admin=true"))
+                .andExpect((status().isOk()))
+                .andExpect(content().json(listJSON.write(list).getJson()))
+                .andReturn().getResponse();
+    }
+
+    @Test
+    public void testing_GET_listAdminIsBool_false() throws Exception {
+        UserModel user = new UserModel();
+
+        List<UserModel> list = new ArrayList<>();
+        list.add(user);
+
+        when(userService.whereAdminIsBool(anyBoolean())).thenReturn(list);
+
+        mvc.perform(
+                get("/api/users/admin=false"))
+                .andExpect((status().isOk()))
+                .andExpect(content().json(listJSON.write(list).getJson()))
+                .andReturn().getResponse();
+    }
+
+    @Test
+    public void testing_usersDateAfter() throws Exception {
+        UserModel user = new UserModel();
+
+        List<UserModel> list = new ArrayList<>();
+        list.add(user);
+
+        when(userService.dateAfter(any(Date.class))).thenReturn(list);
+
+        mvc.perform(
+                get("/api/users/registration-after/2020-01-01"))
+                .andExpect((status().isOk()))
+                .andExpect(content().json(listJSON.write(list).getJson()))
+                .andReturn().getResponse();
+    }
+
+    @Test
+    public void testing_ageGreaterThanEqual() throws Exception {
+        UserModel user = new UserModel();
+
+        List<UserModel> list = new ArrayList<>();
+        list.add(user);
+
+        when(userService.ageGreaterThanEqual(anyInt())).thenReturn(list);
+
+        mvc.perform(
+                get("/api/users/age=45"))
+                .andExpect((status().isOk()))
+                .andExpect(content().json(listJSON.write(list).getJson()))
+                .andReturn().getResponse();
+    }
+
+    @Test
+    public void testing_orderBySurname() throws Exception {
+        UserModel user = new UserModel();
+
+        List<UserModel> list = new ArrayList<>();
+        list.add(user);
+
+        when(userService.orderBySurname()).thenReturn(list);
+
+        mvc.perform(
+                get("/api/users/order-by-surname"))
+                .andExpect((status().isOk()))
+                .andExpect(content().json(listJSON.write(list).getJson()))
                 .andReturn().getResponse();
     }
 }

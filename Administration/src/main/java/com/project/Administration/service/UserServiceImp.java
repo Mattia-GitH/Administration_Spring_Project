@@ -9,6 +9,8 @@ import com.project.Administration.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,6 +36,16 @@ public class UserServiceImp implements UserService {
     public List<UserModel> listUsers() {
         List<UserEntity> userEntities = repository.findAll();
         return converter.listToModels(userEntities);
+    }
+
+    @Override
+    public UserModel userById(Long id) {
+        Optional<UserEntity> optional = repository.findById(id);
+        if (optional.isPresent()){
+            return converter.toModel(optional.get());
+        } else{
+            throw new UserNotFoundException("User not found: " + id);
+        }
     }
 
     @Override
@@ -64,5 +76,29 @@ public class UserServiceImp implements UserService {
         } else {
             throw new UserNotFoundException("User not found id: " + id);
         }
+    }
+
+    @Override
+    public List<UserModel> whereAdminIsBool(boolean bool) {
+        List<UserEntity> userEntities = repository.findByAdministrator(bool);
+        return converter.listToModels(userEntities);
+    }
+
+    @Override
+    public List<UserModel> dateAfter(Date date) {
+        List<UserEntity> userEntities = repository.findByRegistrationAfter(date);
+        return converter.listToModels(userEntities);
+    }
+
+    @Override
+    public List<UserModel> ageGreaterThanEqual(int age) {
+        List<UserEntity> userEntities = repository.findByAgeGreaterThanEqual(age);
+        return converter.listToModels(userEntities);
+    }
+
+    @Override
+    public List<UserModel> orderBySurname() {
+        List<UserEntity> userEntities = repository.findAllByOrderBySurname();
+        return converter.listToModels(userEntities);
     }
 }

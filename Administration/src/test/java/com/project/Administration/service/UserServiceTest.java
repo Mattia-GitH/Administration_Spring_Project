@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -119,5 +120,66 @@ public class UserServiceTest {
         assertEquals(response, delete);
         verify(repository, times(1)).findById(anyLong());
         verify(repository, times(1)).delete(entityFind);
+    }
+
+    @Test
+    public void testing_whereAdminIsBool() {
+        List<UserEntity> list = new ArrayList<>();
+        list.add(new UserEntity());
+
+        when(repository.findByAdministrator(anyBoolean())).thenReturn(list);
+
+        List<UserModel> listFind = service.whereAdminIsBool(anyBoolean());
+
+        assertNotNull(listFind);
+        assertEquals(list.size(), listFind.size());
+        verify(repository, times(1)).findByAdministrator(anyBoolean());
+        verify(converter, times(1)).listToModels(list);
+        assertEquals(list, converter.listToEntities(listFind));
+    }
+
+    @Test
+    public void testing_dateAfter() {
+        List<UserEntity> list = new ArrayList<>();
+
+        when(repository.findByRegistrationAfter(any(Date.class))).thenReturn(list);
+
+        List<UserModel> listAfterDate = service.dateAfter(Date.valueOf("2020-01-01"));
+
+        assertNotNull(listAfterDate);
+        assertEquals(list.size(), listAfterDate.size());
+        verify(repository, times(1)).findByRegistrationAfter(any(Date.class));
+        verify(converter, times(1)).listToModels(list);
+        assertEquals(list, converter.listToEntities(listAfterDate));
+    }
+
+    @Test
+    public void testing_ageGreaterThanEqual() {
+        List<UserEntity> list = new ArrayList<>();
+
+        when(repository.findByAgeGreaterThanEqual(anyInt())).thenReturn(list);
+
+        List<UserModel> listAfterDate = service.ageGreaterThanEqual(anyInt());
+
+        assertNotNull(listAfterDate);
+        assertEquals(list.size(), listAfterDate.size());
+        verify(repository, times(1)).findByAgeGreaterThanEqual(anyInt());
+        verify(converter, times(1)).listToModels(list);
+        assertEquals(list, converter.listToEntities(listAfterDate));
+    }
+
+    @Test
+    public void testing_orderBySurname() {
+        List<UserEntity> list = new ArrayList<>();
+
+        when(repository.findAllByOrderBySurname()).thenReturn(list);
+
+        List<UserModel> listAfterDate = service.orderBySurname();
+
+        assertNotNull(listAfterDate);
+        assertEquals(list.size(), listAfterDate.size());
+        verify(repository, times(1)).findAllByOrderBySurname();
+        verify(converter, times(1)).listToModels(list);
+        assertEquals(list, converter.listToEntities(listAfterDate));
     }
 }
